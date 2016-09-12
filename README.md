@@ -2,7 +2,6 @@
 Using GP to model real world problems
 
 ## Datasets
-Some of the more interesting datasets provided in document by Bryan
 1. [Mean Sea Level Pressure](http://www.metoffice.gov.uk/hadobs/emslp/)
 2. [Sea surface temperature](http://www.metoffice.gov.uk/hadobs/hadsst2/)
 3. [National Oceanic & Atmospheric Adminstration (NOAA) datasets](http://www.esrl.noaa.gov/psd/data/gridded/)
