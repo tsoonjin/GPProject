@@ -79,3 +79,14 @@
   - *SE*: converts global correlation structure into local correlation only
   - *Lin*: standard deviation of model to vary linearly
   - *Sigmoid*: function goes to zero before or after certain point
+
+## [Personalized Health with GP](http://staffwww.dcs.shef.ac.uk/people/N.Lawrence/talks/personalized_health_leahurst13.pdf)[Youtube](https://www.youtube.com/watch?v=si5e-ekZlnQ)
+
+### Why GP instead of Deep Learning ###
+ - massive missing data (force people to be sick all the time)
+  - EMIS database massively sparse and different formats
+  - forced to calculate marginal likelihood, integrate over all outcomes
+  - trivially handle missing data
+
+## [Visualization with GP](http://staffwww.dcs.shef.ac.uk/people/N.Lawrence/talks/gplvm_ebi14.pdf)
+
