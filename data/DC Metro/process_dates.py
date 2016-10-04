@@ -6,7 +6,7 @@ import plotly.plotly as py
 import plotly
 
 # swaps the date and month columns (1,17,18) from the raw data
-with open('train.csv','rb') as data_file:
+with open('rawtrain.csv','rb') as data_file:
     reader = csv.reader(data_file, delimiter=',')
     data = list(reader)
     no_of_data = len(data)
@@ -24,6 +24,6 @@ with open('train.csv','rb') as data_file:
             data[i + 1][17] = time.strftime('%d/%m/%Y %I:%M %p', time.strptime(target_time, pattern))
 
 
-with open('processed_train.csv','wb') as processed_train:
+with open('processed_dates_data.csv','wb') as processed_train:
     writer = csv.writer(processed_train, delimiter=',')
     writer.writerows(data)
