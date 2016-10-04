@@ -15,7 +15,7 @@ with open('data/subset_train.csv','rb') as train_file:
     m = GPy.models.GPRegression(features, targets)
 
 
-with open('data/subset_train.csv','rb') as test_file:
+with open('data/subset_test.csv','rb') as test_file:
     reader = csv.reader(test_file)
     data = np.matrix(list(reader))[1:,:]
 
