@@ -11,6 +11,7 @@ with open('raw_data.csv','rb') as data_file:
     data = list(reader)
     no_of_data = len(data)
     
+    pattern = '%m/%d/%Y %I:%M:%S %p'
     for i in range(no_of_data - 1):
         target_time = data[i + 1][0]
         data[i + 1][0] = time.strftime('%d/%m/%Y %I:%M %p', time.strptime(target_time, pattern))
