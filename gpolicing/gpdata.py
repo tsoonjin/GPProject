@@ -2,7 +2,8 @@
 import os
 import pandas as pd
 
-from config import TRAIN_PATH, HEADERS, OUTPUT_TRAIN_PATH, TEST_PATH, OUTPUT_TEST_PATH
+from config import (HEADERS, OUTPUT_TRAIN_PATH, OUTPUT_TEST_PATH, TRAIN_PATH, TEST_PATH, CRIMES,
+                    INFO_PATH)
 
 
 def write_csv(outpath, df):
@@ -18,36 +19,14 @@ def read_csv(filepath):
     return df
 
 
-def get_month_count(df):
-    return df.groupby(pd.TimeGrouper("M"))['METHOD'].count()
+def groupby_weekonly(df, attr='OFFENSE', val='THEFT/OTHER'):
+    filtered = df[df[attr] == val]
+    return filtered.groupby(filtered.index.week)[attr].count()
 
 
-def get_week_count(df):
-    return df.groupby(df.index.week)['METHOD'].count()
-
-
-def get_day_count(df):
-    return df.groupby(df.index.date)['METHOD'].count()
-
-
-def get_shiftday_count(df):
-    return df.groupby([df.index.date, 'SHIFT'])['METHOD'].count()
-
-
-def get_psaday_count(df):
-    return df.groupby([df.index.date, 'PSA'])['METHOD'].count()
-
-
-def get_censusday_count(df):
-    return df.groupby([df.index.date, 'CENSUS_TRACT'])['METHOD'].count()
-
-
-def get_districtday_count(df):
-    return df.groupby([df.index.date, 'DISTRICT'])['METHOD'].count()
-
-
-def get_censustract_count(df):
-    return df.groupby(df['CENSUS_TRACT'])['METHOD'].count()
+def groupby_week(df, space='PSA', attr='OFFENSE', val='THEFT/OTHER'):
+    filtered = df[df[attr] == val]
+    return filtered.groupby([filtered.index.week, space])[attr].count()
 
 
 def concat_read_csv(dirpath):
@@ -62,12 +41,23 @@ def concat_read_csv(dirpath):
     return final_df
 
 
-if __name__ == '__main__':
+def process_psa():
+    df = pd.read_csv('{}PSA.csv'.format(INFO_PATH))
+    df = df.ix[:, ['PSA', 'TOTALPOP']]
+    df.sort_values(['PSA'], inplace=True)
+    df.to_csv('{}PSA_processed.csv'.format(INFO_PATH), index=False, header=False)
+
+
+def process_crime():
     # Reading 7 districts from 3 months of training data
-    concat_df = concat_read_csv(TRAIN_PATH)
-    dfs = {'D{}'.format(i): read_csv('{}D{}.txt'.format(TEST_PATH, i)) for i in range(1, 8)}
-    # Write processed dataframe to desired output
-    for k, df in dfs.items():
-        write_csv('{}{}_week_count.csv'.format(OUTPUT_TEST_PATH, k), get_week_count(df))
-    write_csv('{}DALL_processed.csv'.format(OUTPUT_TEST_PATH), concat_df)
-    write_csv('{}DALL_districtday_count.csv'.format(OUTPUT_TEST_PATH), get_districtday_count(concat_df))
+    df_train = concat_read_csv(TRAIN_PATH)
+    df_test = concat_read_csv(TEST_PATH)
+    for k, v in CRIMES.items():
+        write_csv('{}week_{}.csv'.format(OUTPUT_TRAIN_PATH, k), groupby_week(df_train, val=v))
+        write_csv('{}weekonly_{}.csv'.format(OUTPUT_TRAIN_PATH, k), groupby_weekonly(df_train, val=v))
+        write_csv('{}week_{}.csv'.format(OUTPUT_TEST_PATH, k), groupby_week(df_test, val=v))
+        write_csv('{}weekonly_{}.csv'.format(OUTPUT_TEST_PATH, k), groupby_weekonly(df_test, val=v))
+
+
+if __name__ == '__main__':
+    process_psa()
