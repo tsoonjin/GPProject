@@ -2,7 +2,7 @@
 import os
 import pandas as pd
 
-from config import TRAIN_PATH, HEADERS, OUTPUT_PATH
+from config import TRAIN_PATH, HEADERS, OUTPUT_TRAIN_PATH, TEST_PATH, OUTPUT_TEST_PATH
 
 
 def write_csv(outpath, df):
@@ -20,6 +20,10 @@ def read_csv(filepath):
 
 def get_month_count(df):
     return df.groupby(pd.TimeGrouper("M"))['METHOD'].count()
+
+
+def get_week_count(df):
+    return df.groupby(df.index.week)['METHOD'].count()
 
 
 def get_day_count(df):
@@ -61,13 +65,9 @@ def concat_read_csv(dirpath):
 if __name__ == '__main__':
     # Reading 7 districts from 3 months of training data
     concat_df = concat_read_csv(TRAIN_PATH)
-    dfs = {'D{}'.format(i): read_csv('{}D{}.txt'.format(TRAIN_PATH, i)) for i in range(1, 8)}
+    dfs = {'D{}'.format(i): read_csv('{}D{}.txt'.format(TEST_PATH, i)) for i in range(1, 8)}
     # Write processed dataframe to desired output
     for k, df in dfs.items():
-        write_csv('{}{}_processed.csv'.format(OUTPUT_PATH, k), df)
-        write_csv('{}{}_day_count.csv'.format(OUTPUT_PATH, k), get_day_count(df))
-        write_csv('{}{}_shift_day_count.csv'.format(OUTPUT_PATH, k), get_shiftday_count(df))
-        write_csv('{}{}_census_day_count.csv'.format(OUTPUT_PATH, k), get_censusday_count(df))
-        write_csv('{}{}_psa_day_count.csv'.format(OUTPUT_PATH, k), get_psaday_count(df))
-    write_csv('{}DALL_processed.csv'.format(OUTPUT_PATH), concat_df)
-    write_csv('{}DALL_districtday_count.csv'.format(OUTPUT_PATH), get_districtday_count(concat_df))
+        write_csv('{}{}_week_count.csv'.format(OUTPUT_TEST_PATH, k), get_week_count(df))
+    write_csv('{}DALL_processed.csv'.format(OUTPUT_TEST_PATH), concat_df)
+    write_csv('{}DALL_districtday_count.csv'.format(OUTPUT_TEST_PATH), get_districtday_count(concat_df))
