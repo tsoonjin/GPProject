@@ -9,7 +9,8 @@ const DIST_DIR = 'dist';
 const LABEL_DURATION = 'week';
 const LABEL_PSA = 'PSA';
 const LABEL_OFFENSE = 'OFFENSE';
-const LABEL_DATE = 'REPORT_DAT';
+// const LABEL_DATE = 'REPORT_DAT';
+const LABEL_DATE = 'REPORT_DATE';
 const CRIMES = ['BURGLARY',
   'THEFT/OTHER',
   'THEFT F/AUTO',
@@ -17,8 +18,12 @@ const CRIMES = ['BURGLARY',
   'ROBBERY',
   'ASSAULT W/DANGEROUS WEAPON',
   'SEX ABUSE',
-  'HOMICIDE'
+  'HOMICIDE',
+  'ARSON'
   ];
+
+// const DATE_FORMAT = 'M/D/YYYY hh:mm:ss A';
+const DATE_FORMAT = 'YYYY-MM-DD HH:mm:ss';
 
 if (!fs.existsSync(DIST_DIR)) {
   fs.mkdirSync(DIST_DIR);
@@ -27,7 +32,9 @@ if (!fs.existsSync(DIST_DIR)) {
 var files = fs.readdirSync(RAW_DIR);
 
 files.forEach((file) => {
-  processFile(file);
+  if (file.endsWith('.csv')) {
+    processFile(file);
+  }
 });
 
 function processFile(file) {
@@ -94,7 +101,7 @@ function extractInfo(row) {
   // console.log(row[LABEL_DATE]);
   // console.log(moment(row[LABEL_DATE], 'M/D/YYYY hh:mm:ss A').format());
   var info = {
-    date: moment(row[LABEL_DATE], 'M/D/YYYY hh:mm:ss A'),
+    date: moment(row[LABEL_DATE], DATE_FORMAT),
     type: row[LABEL_OFFENSE]
   };
   info[LABEL_PSA] = +row[LABEL_PSA];
@@ -103,7 +110,7 @@ function extractInfo(row) {
 
 function writeToFile(data, file) {
   for (var property in data) {
-    if (data.hasOwnProperty(property)) {
+    if (data.hasOwnProperty(property) && data[property].length > 0) {
       writeCrimeType(property, file, data);
     }
   }
