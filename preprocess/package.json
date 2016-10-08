@@ -1,0 +1,16 @@
+{
+  "name": "preprocess",
+  "version": "1.0.0",
+  "description": "pre-process data",
+  "main": "process.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "paradite",
+  "license": "ISC",
+  "dependencies": {
+    "fast-csv": "^2.3.0",
+    "moment": "^2.15.1",
+    "twix": "^1.1.1"
+  }
+}
