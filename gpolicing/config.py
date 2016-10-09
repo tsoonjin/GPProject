@@ -15,3 +15,6 @@ HEADERS = ["REPORT_DATE", "SHIFT", "OFFENSE", "METHOD", "BLOCK", "DISTRICT", "PS
 
 # Types of crimes to be investigated
 CRIMES = {'theft': 'THEFT/OTHER', 'robbery': 'ROBBERY'}
+
+# Data information
+DC_POPULATION = 561702

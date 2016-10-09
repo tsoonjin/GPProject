@@ -43,6 +43,8 @@ def concat_read_csv(dirpath):
 
 def process_psa():
     df = pd.read_csv('{}PSA.csv'.format(INFO_PATH))
+    sum = df['TOTALPOP'].sum()
+    df['TOTALPOP'] = df['TOTALPOP'] / sum
     df = df.ix[:, ['PSA', 'TOTALPOP']]
     df.sort_values(['PSA'], inplace=True)
     df.to_csv('{}PSA_processed.csv'.format(INFO_PATH), index=False, header=False)
