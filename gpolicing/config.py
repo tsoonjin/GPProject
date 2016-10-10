@@ -1,20 +1,20 @@
 #!/usr/bin/env python
-""" Stores configuration such as data path and date format """
+import numpy as np
+""" Stores settings and constants used for processing in main code """
 
 
-INFO_PATH = 'data/info/'
-TRAIN_PATH = 'data/train/3month/'
-TEST_PATH = 'data/test/'
-OUTPUT_TRAIN_PATH = 'data/processed/train/'
-OUTPUT_TEST_PATH = 'data/processed/test/'
+# Paths
+ROOT = 'data/'
+PATH = {'info': '{}{}'.format(ROOT, 'info/'),
+        'train': '{}{}'.format(ROOT, 'train/'),
+        'raw': '{}{}'.format(ROOT, 'raw/'),
+        'test': '{}{}'.format(ROOT, 'test/'),
+        'models': '{}{}'.format(ROOT, 'models/')}
+TRAIN_PATH = '{}week_theft_in_3m.csv'.format(PATH['train'])
+TEST_PATH = '{}week_theft_in_test1m.csv'.format(PATH['test'])
 
-# Dataframe headers
+# Data Format
 HEADERS = ["REPORT_DATE", "SHIFT", "OFFENSE", "METHOD", "BLOCK", "DISTRICT", "PSA", "WARD", "ANC",
            "NEIGHBORHOOD_CLUSTER", "BLOCK_GROUP", "CENSUS_TRACT", "VOTING_PRECINCT", "CCN",
            "XBLOCK", "YBLOCK", "START_DATE", "END_DATE"]
-
-# Types of crimes to be investigated
 CRIMES = {'theft': 'THEFT/OTHER', 'robbery': 'ROBBERY'}
-
-# Data information
-DC_POPULATION = 561702
