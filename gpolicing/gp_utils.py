@@ -69,3 +69,24 @@ def count_from_prediction(predictive_mean, log_es_test):
 
 def calc_MSE(truth_f, predictive_f):
     return ((truth_f - predictive_f)**2).mean()
+
+
+def in_sample_prediction(train_path, psa_pop, week_count, mname, offense, model, test_samples=300):
+    avg_weekly_count = np.mean(list(week_count.values()))
+    X_train, Y_train, _, _, _ = load_training(train_path, psa_pop, week_count)
+    test_indices = np.random.permutation(range(X_train.shape[0]))[:test_samples]
+    X_test = X_train[test_indices]
+    Y_test = Y_train[test_indices]
+    predict_mean, predict_variance = model._raw_predict(X_test)
+    log_es_test = np.array([[math.log(avg_weekly_count * psa_pop[str(i[0])]) for i in X_test]]).T
+    mse = calc_MSE(Y_test, count_from_prediction(predict_mean, log_es_test))
+    return predict_mean, predict_variance, mse
+
+
+def out_sample_forecast(test_path, psa_pop, week_count, mname, offense, model):
+    avg_weekly_count = np.mean(list(week_count.values()))
+    X_test, truth_f, log_es_test = load_test(test_path, psa_pop, week_count)
+    predict_mean, predict_variance = model._raw_predict(X_test)
+    log_es_test = np.array([[math.log(avg_weekly_count * psa_pop[str(i[0])]) for i in X_test]]).T
+    mse = calc_MSE(truth_f, count_from_prediction(predict_mean, log_es_test))
+    return predict_mean, predict_variance, mse

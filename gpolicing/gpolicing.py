@@ -1,14 +1,12 @@
 #!/usr/bin/env python
 # coding: utf-8
-import math
-import numpy as np
-import scipy as sp
 import os
 import GPy
+import sys
 
 from config import PATH, TRAIN_PATH, TEST_PATH
-from gp_utils import (load_as_dict, load_training, load_test, load_model, save_model, calc_MSE,
-                      count_from_prediction)
+from gp_utils import (load_as_dict, load_training, load_test, load_model, save_model,
+                      count_from_prediction, in_sample_prediction, out_sample_forecast)
 
 
 def init_params(offense):
@@ -29,7 +27,8 @@ def generate_kernel():
     return full_kern
 
 
-def generate_model(X_train, Y_train, full_kern, mname, optimizer='scg'):
+def generate_model(train_path, psa_pop, week_count, full_kern, mname):
+    X_train, Y_train, _, _, _ = load_training(train_path, psa_pop, week_count)
     filepath = '{}{}.npy'.format(PATH['models'], mname)
     if os.path.isfile(filepath):
         return load_model(X_train, Y_train, full_kern, filepath)
@@ -37,7 +36,7 @@ def generate_model(X_train, Y_train, full_kern, mname, optimizer='scg'):
     laplace_inf = GPy.inference.latent_function_inference.Laplace()
     m = GPy.core.GP(X=X_train, Y=Y_train, kernel=full_kern, likelihood=likelihood_func,
                     inference_method=laplace_inf)
-    m.optimize(messages=True, optimizer=optimizer)
+    m.optimize(messages=True)
     save_model(m, filepath)
     return m
 
@@ -48,10 +47,11 @@ def predict(m, X_test):
 
 
 if __name__ == '__main__':
-    psa_pop, week_count = init_params('theft')
-    X_train, Y_train, _, _, _ = load_training(TRAIN_PATH, psa_pop, week_count)
-    X_test, truth_f, log_es_test = load_test(TEST_PATH, psa_pop, week_count)
-    m = generate_model(X_train, Y_train, generate_kernel(), 'model1')
-    predict_mean, predict_var = predict(m, X_test)
-    mse = calc_MSE(truth_f, predict_mean)
-    print(mse)
+    if len(sys.argv) != 3:
+        print("Usage: python gpolicing.py [model_name] [offense]")
+        exit()
+    mname, offense = sys.argv[1:]
+    psa_pop, week_count = init_params(offense)
+    m = generate_model(TRAIN_PATH, psa_pop, week_count, generate_kernel(), mname)
+    # in_sample_prediction(TRAIN_PATH, psa_pop, week_count, mname, offense, m)
+    out_sample_forecast(TEST_PATH, psa_pop, week_count, mname, offense, m)

@@ -64,4 +64,4 @@ def process_training(filepath, outpath):
 
 
 if __name__ == '__main__':
-    pass
+    process_training('test1m', 'test')
