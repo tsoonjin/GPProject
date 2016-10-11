@@ -3,6 +3,9 @@ import numpy as np
 import scipy as sp
 import GPy
 import math
+import csv
+
+from collections import OrderedDict
 
 
 def save_model(m, filepath):
@@ -80,6 +83,7 @@ def in_sample_prediction(train_path, psa_pop, week_count, mname, offense, model,
     predict_mean, predict_variance = model._raw_predict(X_test)
     log_es_test = np.array([[math.log(avg_weekly_count * psa_pop[str(i[0])]) for i in X_test]]).T
     mse = calc_MSE(Y_test, count_from_prediction(predict_mean, log_es_test))
+    log_result(offense, mname, mse, predict_mean, log_es_test)
     return predict_mean, predict_variance, mse
 
 
@@ -89,4 +93,42 @@ def out_sample_forecast(test_path, psa_pop, week_count, mname, offense, model):
     predict_mean, predict_variance = model._raw_predict(X_test)
     log_es_test = np.array([[math.log(avg_weekly_count * psa_pop[str(i[0])]) for i in X_test]]).T
     mse = calc_MSE(truth_f, count_from_prediction(predict_mean, log_es_test))
-    return predict_mean, predict_variance, mse
+    log_result(offense, mname, mse, predict_mean, log_es_test)
+    return predict_mean, predict_variance, X_test, truth_f, log_es_test, mse
+
+
+def log_result(offense, mname, mse, predict_mean, log_es_test):
+    res = np.c_[predict_mean, count_from_prediction(predict_mean, log_es_test)]
+    print('Offense: {}\tModel: {}\tMSE: {}'.format(offense, mname, mse))
+    print('Relative risk | Counts\n{}'.format(res))
+
+
+def get_truth_stats(X_test, Y_test, psa_keys, weeks=[22]):
+    """ Returns psa and truth data """
+    psa_counts = OrderedDict({p.split('.')[0]: [0, 0] for p in psa_keys})
+    for i, test in enumerate(X_test):
+        if test[1] not in weeks:
+            break
+        psa_counts[str(int(test[0]))][0] = psa_counts[str(int(test[0]))][0] + Y_test[i][0]
+    return psa_counts
+
+
+def get_predicted_stats(X_test, predict_mean, log_es_test, psa_keys, weeks=[22]):
+    """ Returns psa and crime count as csv """
+    counts = count_from_prediction(predict_mean, log_es_test)
+    log_relative_risk = predict_mean
+    psa_counts = OrderedDict({p.split('.')[0]: [0, 0] for p in psa_keys})
+    for i, test in enumerate(X_test):
+        if test[1] not in weeks:
+            break
+        psa_counts[str(int(test[0]))][0] = psa_counts[str(int(test[0]))][0] + counts[i][0]
+        psa_counts[str(int(test[0]))][1] = psa_counts[str(int(test[0]))][1] + log_relative_risk[i][0]
+    return psa_counts
+
+
+def stats_to_csv(my_dict, filepath, columns=['PSA', 'COUNT', 'RELATIVE']):
+    with open(filepath, 'wb') as csv_file:
+        writer = csv.writer(csv_file)
+        writer.writerow(columns)
+        for key, value in my_dict.items():
+            writer.writerow([key, value[0], value[1]])

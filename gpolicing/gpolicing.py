@@ -3,10 +3,12 @@
 import os
 import GPy
 import sys
+import numpy as np
 
 from config import PATH, TRAIN_PATH, TEST_PATH
 from gp_utils import (load_as_dict, load_training, load_test, load_model, save_model,
-                      count_from_prediction, in_sample_prediction, out_sample_forecast)
+                      count_from_prediction, in_sample_prediction, out_sample_forecast,
+                      get_predicted_stats, stats_to_csv, get_truth_stats)
 
 
 def init_params(offense):
@@ -53,5 +55,8 @@ if __name__ == '__main__':
     mname, offense = sys.argv[1:]
     psa_pop, week_count = init_params(offense)
     m = generate_model(TRAIN_PATH, psa_pop, week_count, generate_kernel(), mname)
-    # in_sample_prediction(TRAIN_PATH, psa_pop, week_count, mname, offense, m)
-    out_sample_forecast(TEST_PATH, psa_pop, week_count, mname, offense, m)
+    (predict_mean, _, X_test, truth_f, log_es_test, _) = out_sample_forecast(TEST_PATH, psa_pop, week_count,
+                                                                             mname, offense, m)
+    # psa_counts = get_predicted_stats(X_test, predict_mean, log_es_test, psa_pop.keys())
+    psa_counts = get_truth_stats(X_test, truth_f, psa_pop.keys())
+    stats_to_csv(psa_counts, '{}{}_truth.csv'.format(PATH['result'], mname))
