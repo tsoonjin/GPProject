@@ -1,6 +1,9 @@
 # Gaussian Process Modeling
 Using GP to model real world problems
 
+# Result as visualization
+[https://jinified.github.io/GPProject/](https://jinified.github.io/GPProject/)
+
 ## Datasets
 1. [Mean Sea Level Pressure](http://www.metoffice.gov.uk/hadobs/emslp/)
 2. [Sea surface temperature](http://www.metoffice.gov.uk/hadobs/hadsst2/)
