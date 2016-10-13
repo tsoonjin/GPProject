@@ -213,14 +213,53 @@
 		\label{t2}
 	\end{table}
 
-	As can be observed from the MSE values, our model does better than the state-of-the art model as well as Holt-Winters method in predicting the Burglary crimes, which we were pleasantly surprised about. However, when used on other categories of data, such as Robbery, the MSE does not perform as well, probably due to unsuitable use of the kernels in the robbery context.	
+	As can be observed from the MSE values, our model does better than the state-of-the art model as well as Holt-Winters method in predicting the Burglary crimes, which we were pleasantly surprised about. However, when used on other categories of data, such as Robbery, the MSE does not perform as well, probably due to unsuitable use of the kernels in the robbery context.
+	
 	%%%%%%%%%% Section 5
+	\section{Evaluation}
+	Our model also outputs multiple forms of heatmaps. Each heatmap can be used by the police for different purposes, but in general, the motivation for producing them is so that the police will be able to better manage their resources (which are expensive and limited), to make it a safer place for citizens to live in.
+	\subsection{Relative Risk}
+	\begin{figure}[!ht]
+		\minipage{0.15\textwidth}
+		\includegraphics[width=\linewidth]{./w22_relative.png}
+		\caption{Relative risk of crimes in Week 22}
+		\label{p3}
+		\endminipage\hfill
+		\minipage{0.15\textwidth}
+		\includegraphics[width=\linewidth]{./w23_relative.png}
+		\caption{Relative risk of crimes in Week 23}
+		\label{p4}
+		\endminipage\hfill
+		\minipage{0.15\textwidth}
+		\includegraphics[width=\linewidth]{./w24_relative.png}
+		\caption{Relative risk of crimes in Week 24}
+		\label{p5}
+		\endminipage\hfill
+	\end{figure}
+	The main output of our model is the relative risk heatmap. This heatmap is adjusted to the expected count of crimes in the area, based on the population, instead of being based on the absolute amount. If the predicted count is far above the expected count for the area, they are considered to be of higher risk, and will be darker as shown in the figures. This visual information will easily allow the police to identify which areas are likely to require more police resources, including people, and make preparations for it. Putting the heatmaps for each week side-by-side will also allow the police to better understand the spread of crimes across the areas, and possibly identify underlying causes for the phenomenon.
+	\subsection{Anomaly Detection}
+	\begin{figure}[!ht]
+		\includegraphics[width=\linewidth]{./w22_outlier.png}
+		\caption{Mapping of Anomalies}
+		\label{p4}
+	\end{figure}
+	Another output that our model produces is the anomaly map. Using this map, the police are able to identify which areas have unexpected amount of crimes, whether it be too high or too low. Using this information, the police can initiate a thorough investigation into the cause. For example, the increased amount of crimes could be due to emergence of crime syndicates in the region. If the police are able to investigate and uncover this, they can tackle the problem in the bigger picture of tracking down these crime syndicates, rather than simply attempting to arrest the burglars. This is a way that the police can make better use of their resources.
+
+	\subsection{Variance analysis}
+	\begin{figure}[!ht]
+		\includegraphics[width=\linewidth]{./w22_variance.png}
+		\caption{Variance map}
+		\label{p5}
+	\end{figure}
+	Last, but not least, our model is also able to output a variance heatmap. Having too high of a variance suggests that the model is not confident of its prediction in that area. This could instigate the police to increase the amount of patrol in these areas, so as to be able to spot crimes that may go unreported. This will also improve the future predictions of the crimes in the area since more data will be available for the model.
+	
+	%%%%%%%%%% Section 6
 	\section{Conclusion}
 	In this paper, we have proposed an innovative way of combining the rich class of Gaussian Processes and the visually interpretable heatmap to create an easily interpretable risk assessment of crime in a area.
 	Although our model slightly underperforms when compared with the latest state-of-the-art model, we believe that the slight dip in accuracy is an acceptable trade-off for the more user-friendly output.
 	It is also likely that enhancing our model with side information that the authorities have access to will enable us to outperform the state-of-the-art model.
 	
-	%%%%%%%%% Section 6
+	%%%%%%%%% Section 7
 	\section{Members}
 	\begin{itemize}
 		\item {\bf Choo Boon Yong Martin (A0132760M), Leow Yijin (A0131891E) and Tan Soon Jin (A0112213E)} were in charge of modelling the data.

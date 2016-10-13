@@ -81,6 +81,7 @@
       <file>gp5-blx.bib</file>
     </requires>
     <requires type="editable">
+      <file>reference.bib</file>
     </requires>
     <requires type="static">
       <file>biblatex.bst</file>
