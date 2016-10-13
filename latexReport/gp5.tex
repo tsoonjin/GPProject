@@ -104,7 +104,7 @@
 	The uneven occurrence rate of crimes creates an uneven sampling rate of sorts.
 	Even then, the GP model allows us to use all of the information in the crime dataset to model and predict future crimes.
 
-	The ‘Broken Window’ theory suggests that an area where a crime has occurred is likely to have more crime[citation needed].
+	The ‘Broken Window’ theory suggests that an area where a crime has occurred is likely to have more crime. \cite{c07}
 	Following this theory, it is highly likely that the crime occurrences in a particular neighbourhood are highly correlated with one another.
 	GP model thus provides a good fit for the data.
 
@@ -144,7 +144,7 @@
 	\[K((s,t),(s',t')) = k_s(s,s')+k_t(t,t')+k_{st}((s,t),(s',t'))\]
 
 	We use the Matern 3/2 kernel for space and Radial Basis Function kernel for time.
-	Unlike Surname (YEAR), we choose to ignore the periodic kernel as we only deal with 3 months training data for now, which does not show any periodicity.
+	Unlike Flaxman (2016), we choose to ignore the periodic kernel as we only deal with 3 months training data for now, which does not show any periodicity.
 	We then maximize the marginal likelihood by optimizing using Limited-Memory Broyden–Fletcher–Goldfarb–Shanno (LBFGS).
 	We chose the LBFGS method as it gave the best result of all the methods tried, including Scaled Conjugate Gradients and Truncated Newton method.
 	
@@ -152,12 +152,12 @@
 	Through the undertaking of this project, we have derived several additional insights about the GP model:
 	\begin{enumerate}
 		\item {\bf Pattern Discovery:} We can use a more expressive kernel from a learned covariance function to learn hidden representations of data. \cite{c03}
-		\item {\bf Feature Selection:} It is possible to use ARD (Automatic Relevance Determination) covariance function to perform feature selection on different inputs for a crime problem.
-		\item {\bf Log-Cox Gaussian Process:} It is possible to apply LGCP to investigate the contagious effect of crime.
+		\item {\bf Feature Selection:} It is possible to use ARD (Automatic Relevance Determination) covariance function to perform feature selection on different inputs for a crime problem. \cite{c03}
+		\item {\bf Log-Cox Gaussian Process:} It is possible to apply LGCP to investigate the contagious effect of crime. \cite{c05}
 		\item {\bf Multiple Output GP:} We applied multiple task learning, that is, information shared between the tasks to compensate for missing data.
 		\item {\bf Stationarity of data:} We experimented with non-stationary kernel, assuming the data was stationary.
 		\item {\bf Mean Function:} We learned the Importance of setting mean function properly to indicate bias.
-		\item {\bf Incorporation of Side Data:} Another advantage of the GP is the possibility of incorporating side information by coupling together multiple Probabilistic Matrix Factorization problems.
+		\item {\bf Incorporation of Side Data:} Another advantage of the GP is the possibility of incorporating side information by coupling together multiple Probabilistic Matrix Factorization problems. \cite{c02}
 	\end{enumerate}
 	
 	\subsection{Novel and Interesting Heatmap}
@@ -259,7 +259,12 @@
 
 	\bibitem{c06}
 	Flaxman, S. (2016).
-	A General Approach to Prediction and Forecasting Crime Rates with Gaussian Processes. Retrieved from https://www.ml.cmu.edu/research/dap-papers/dap\_flaxman.pdf
+	A General Approach to Prediction and Forecasting Crime Rates with Gaussian Processes. Retrieved October 13, 2016, from https://www.ml.cmu.edu/research/dap-papers/dap\_flaxman.pdf
+
+	\bibitem{c07}
+	Wilson, J. Q., \& Kelling, G. (n.d.).
+	Broken Window Theory | Missoula, MT - Official Website. Retrieved October 13, 2016, from http://www.ci.missoula.mt.us/881/Broken-Window-Theory
+
 	
 	\end{thebibliography}
 \end{document}
