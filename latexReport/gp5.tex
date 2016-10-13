@@ -8,32 +8,29 @@
 \usepackage{amssymb}
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
-\usepackage{titlesec}
 \usepackage{graphicx} 
 \usepackage{wrapfig}
-\usepackage{blindtext}
 \usepackage{indentfirst}
 
 % For aaai
 \usepackage{times}
 \usepackage{helvet}
 \usepackage{courier}
+
+\usepackage[style=numeric,backend=bibtex]{biblatex}
+
 \setlength{\pdfpagewidth}{8.5in} 
 \setlength{\pdfpageheight}{11in}
 
 \setcounter{secnumdepth}{1} % for section number
 
-\title{\LARGE \bf
-	Modelling Crimes using Gaussian Processes\\
-	\normalsize CS4246 Project: Planning and Decision Making in the Real World
-}
-
+\addbibresource{reference.bib}
 
 \begin{document}
 
-	\title{Gaussian Forecasting}
+	\title{Modelling Crimes using Gaussian Processes}
 	\author{CS4246 Project: Planning and Decision Making in the Real World  \\ \\
-		\bf \small CS4246 Team 05 Members:\\
+	\bf \small CS4246 Team 05 Members:\\
 	\small Choo Boon Yong Martin, A0132760M\\
 	\small Leow Yijin, A0131891E\\
 	\small Tan Soon Jin, A0112213E\\
@@ -83,7 +80,7 @@
 	\subsection{Gaussian Process}
 	
 	A Gaussian process is a collection of random variables, any finite number of which have a joint Gaussian distribution.
-	GP is a non-parametric technique to generalize a set of random variables (r.v.) as a distribution over functions with an infinite dimension. \cite{c01}
+	GP is a non-parametric technique to generalize a set of random variables (r.v.) as a distribution over functions with an infinite dimension. \cite{1}
 	It is defined by its mean and variance. We define x as a random input variable, $\mu (x)$ as its mean function and $\kappa$ (x, x') as its covariance function resulting in \[f(x) \sim GP(\mu (x), \kappa (x, x')) \]
 	Realistically, a GP model is affected by noise, as expressed $y_i = f(x_i) + \epsilon_i$ where $\epsilon_i \sim N(0, \sigma^2_n)$.
 	Given observation $\mathbf{y} = [y_1, y_2, \ldots, y_n]^T$, GP will try to infer  $ p(f(\text{x*} | \textbf{y}) \triangleq \mathcal{N}(f(\text{x*}); \mu, \sigma^2)$ where $\mu$ is the prediction and $\sigma^2$ is the predictive variance. 
@@ -100,7 +97,6 @@
 	Another important factor is that it is possible for a crime to go either undetected or unreported. Thus the model will need to be able to accurately model data with uneven occurrence rates.
 	Furthermore, crime can occur as a result of a large number of interdependent factors, most of them unknown and situation dependent. What drives one criminal to commit crimes may not be the same for another.
 	Therefore, the model should not make any assumptions on the features. We should also be able to update the model as more crime occurs, allowing an up-to-date model.\\ \\
-	\blindtext
 	
 	\subsection{Desirable Properties of Gaussian Processes}
 	
@@ -114,7 +110,7 @@
 	The uneven occurrence rate of crimes creates an uneven sampling rate of sorts.
 	Even then, the GP model allows us to use all of the information in the crime dataset to model and predict future crimes.
 
-	The ‘Broken Window’ theory suggests that an area where a crime has occurred is likely to have more crime. \cite{c07}
+	The ‘Broken Window’ theory suggests that an area where a crime has occurred is likely to have more crime. \autocite[c07]{7}
 	Following this theory, it is highly likely that the crime occurrences in a particular neighbourhood are highly correlated with one another.
 	GP model thus provides a good fit for the data.
 
@@ -153,7 +149,7 @@
 	In selecting the kernel, we combine multiple kernels to investigate the effect of different input dimensions:
 	\[K((s,t),(s',t')) = k_s(s,s')+k_t(t,t')+k_{st}((s,t),(s',t'))\]
 
-	We use the Matern 3/2 kernel for space and Radial Basis Function kernel for time.
+	We use the Matern ${3}\over2$ kernel for space and Radial Basis Function kernel for time.
 	Unlike Flaxman (2016), we choose to ignore the periodic kernel as we only deal with 3 months training data for now, which does not show any periodicity.
 	We then maximize the marginal likelihood by optimizing using Limited-Memory Broyden–Fletcher–Goldfarb–Shanno (LBFGS).
 	We chose the LBFGS method as it gave the best result of all the methods tried, including Scaled Conjugate Gradients and Truncated Newton method.
@@ -161,13 +157,13 @@
 	\subsection{Additional Insight}
 	Through the undertaking of this project, we have derived several additional insights about the GP model:
 	\begin{enumerate}
-		\item {\bf Pattern Discovery:} We can use a more expressive kernel from a learned covariance function to learn hidden representations of data. \cite{c03}
-		\item {\bf Feature Selection:} It is possible to use ARD (Automatic Relevance Determination) covariance function to perform feature selection on different inputs for a crime problem. \cite{c03}
-		\item {\bf Log-Cox Gaussian Process:} It is possible to apply LGCP to investigate the contagious effect of crime. \cite{c05}
+		\item {\bf Pattern Discovery:} We can use a more expressive kernel from a learned covariance function to learn hidden representations of data. \autocite[3]{c03}
+		\item {\bf Feature Selection:} It is possible to use ARD (Automatic Relevance Determination) covariance function to perform feature selection on different inputs for a crime problem. \autocite[3]{c03}
+		\item {\bf Log-Cox Gaussian Process:} It is possible to apply LGCP to investigate the contagious effect of crime. \autocite[5]{c05}
 		\item {\bf Multiple Output GP:} We applied multiple task learning, that is, information shared between the tasks to compensate for missing data.
 		\item {\bf Stationarity of data:} We experimented with non-stationary kernel, assuming the data was stationary.
 		\item {\bf Mean Function:} We learned the Importance of setting mean function properly to indicate bias.
-		\item {\bf Incorporation of Side Data:} Another advantage of the GP is the possibility of incorporating side information by coupling together multiple Probabilistic Matrix Factorization problems. \cite{c02}
+		\item {\bf Incorporation of Side Data:} Another advantage of the GP is the possibility of incorporating side information by coupling together multiple Probabilistic Matrix Factorization problems.\autocite[2]{c02}
 	\end{enumerate}
 	
 	\subsection{Novel and Interesting Heatmap}
@@ -242,31 +238,33 @@
 	\end{itemize}
 
 	%%%%%%%%%% Section 7
-	\section{References}
+	% \section{References}
 	
-	\smallskip \noindent McDubb, D. (2010).
-	\textit{Gaussian Processes.}
-	Lecture, Massachusetts Institute of Technology
+	% \smallskip \noindent McDubb, D. (2010).
+	% \textit{Gaussian Processes.}
+	% Lecture, Massachusetts Institute of Technology
 	
-	\smallskip \noindent Ryan Prescott Adams, George E. Dahl \& Iain Murray (2014).
-	\textit{Incorporating Side Information in Probabilistic Matrix Factorization with Gaussian Processes.}
-	Twenty-Sixth Conference on Uncertainty in Artificial Intelligence (UAI2010). arXiv:1408.2039
+	% \smallskip \noindent Ryan Prescott Adams, George E. Dahl \& Iain Murray (2014).
+	% \textit{Incorporating Side Information in Probabilistic Matrix Factorization with Gaussian Processes.}
+	% Twenty-Sixth Conference on Uncertainty in Artificial Intelligence (UAI2010). arXiv:1408.2039
 
-	\smallskip \noindent Wilson, A.G., Adams, R.P. (2010).
-	\textit{Gaussian Process Kernels for Pattern Discovery and Extrapolation.}
-	The 30th International Conference on Machine Learning. JMLR W\&CP 28 (3) :1067-1075, 2013
+	% \smallskip \noindent Wilson, A.G., Adams, R.P. (2010).
+	% \textit{Gaussian Process Kernels for Pattern Discovery and Extrapolation.}
+	% The 30th International Conference on Machine Learning. JMLR W\&CP 28 (3) :1067-1075, 2013
 	
-	\smallskip \noindent Ghahramani, Z. (2010).
-	\textit{A Tutorial on Gaussian Processes.}
-	Lecture, University of Cambridge
+	% \smallskip \noindent Ghahramani, Z. (2010).
+	% \textit{A Tutorial on Gaussian Processes.}
+	% Lecture, University of Cambridge
 	
-	\smallskip \noindent Clifton, D. (2016).
-	Log Gaussian Cox Processes. Presentation, Computational Health Informatics Group Meeting.
+	% \smallskip \noindent Clifton, D. (2016).
+	% Log Gaussian Cox Processes. Presentation, Computational Health Informatics Group Meeting.
 
-	\smallskip \noindent Flaxman, S. (2016).
-	A General Approach to Prediction and Forecasting Crime Rates with Gaussian Processes. Retrieved October 13, 2016, from https://www.ml.cmu.edu/research/dap-papers/dap\_flaxman.pdf
+	% \smallskip \noindent Flaxman, S. (2016).
+	% A General Approach to Prediction and Forecasting Crime Rates with Gaussian Processes. Retrieved October 13, 2016, from https://www.ml.cmu.edu/research/dap-papers/dap\_flaxman.pdf
 
-	\smallskip \noindent Wilson, J. Q., \& Kelling, G. (n.d.).
-	Broken Window Theory | Missoula, MT - Official Website. Retrieved October 13, 2016, from http://www.ci.missoula.mt.us/881/Broken-Window-Theory
+	% \smallskip \noindent Wilson, J. Q., \& Kelling, G. (n.d.).
+	% Broken Window Theory | Missoula, MT - Official Website. Retrieved October 13, 2016, from http://www.ci.missoula.mt.us/881/Broken-Window-Theory
+	
+	\printbibliography
 
 \end{document}
