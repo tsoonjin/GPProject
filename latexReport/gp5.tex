@@ -1,6 +1,7 @@
-\documentclass[a4paper, 10pt, conference]{ieeeconf}
+\def\year{2016}
+\documentclass[letterpaper]{article}
 
-% Framework thanks to Vu Dinh Quang Dat
+\usepackage{aaai}
 \usepackage{relsize}
 \usepackage{sectsty}
 \usepackage{amsmath}
@@ -11,26 +12,35 @@
 \usepackage{graphicx} 
 \usepackage{wrapfig}
 \usepackage{blindtext}
-\usepackage{hyperref}
 \usepackage{indentfirst}
+
+% For aaai
+\usepackage{times}
+\usepackage{helvet}
+\usepackage{courier}
+\setlength{\pdfpagewidth}{8.5in} 
+\setlength{\pdfpageheight}{11in}
+
+\setcounter{secnumdepth}{1} % for section number
 
 \title{\LARGE \bf
 	Modelling Crimes using Gaussian Processes\\
 	\normalsize CS4246 Project: Planning and Decision Making in the Real World
 }
 
-\author{
-	\bf \small CS4246 Team 05 Members:\\
+
+\begin{document}
+
+	\title{Gaussian Forecasting}
+	\author{CS4246 Project: Planning and Decision Making in the Real World  \\ \\
+		\bf \small CS4246 Team 05 Members:\\
 	\small Choo Boon Yong Martin, A0132760M\\
 	\small Leow Yijin, A0131891E\\
 	\small Tan Soon Jin, A0112213E\\
 	\small Teo Qi Xuan, A0124206W\\
 	\small Won Jun Ru Daphne, A0126172M\\
 	\small Zhu Liang, A0093910H\\
-}
-
-
-\begin{document}		
+	}	
 	
 	\pdfinfo{
 		/Title Modelling Crimes using Gaussian Processes
@@ -232,39 +242,31 @@
 	\end{itemize}
 
 	%%%%%%%%%% Section 7
-	\begin{thebibliography}{9}
-	\bibitem{c01}
-	McDubb, D. (2010).
+	\section{References}
+	
+	\smallskip \noindent McDubb, D. (2010).
 	\textit{Gaussian Processes.}
 	Lecture, Massachusetts Institute of Technology
 	
-	\bibitem{c02}
-	Ryan Prescott Adams, George E. Dahl \& Iain Murray (2014).
+	\smallskip \noindent Ryan Prescott Adams, George E. Dahl \& Iain Murray (2014).
 	\textit{Incorporating Side Information in Probabilistic Matrix Factorization with Gaussian Processes.}
 	Twenty-Sixth Conference on Uncertainty in Artificial Intelligence (UAI2010). arXiv:1408.2039
 
-	\bibitem{c03} 
-	Wilson, A.G., Adams, R.P. (2010).
+	\smallskip \noindent Wilson, A.G., Adams, R.P. (2010).
 	\textit{Gaussian Process Kernels for Pattern Discovery and Extrapolation.}
 	The 30th International Conference on Machine Learning. JMLR W\&CP 28 (3) :1067-1075, 2013
 	
-	\bibitem{c04} 
-	Ghahramani, Z. (2010).
+	\smallskip \noindent Ghahramani, Z. (2010).
 	\textit{A Tutorial on Gaussian Processes.}
 	Lecture, University of Cambridge
 	
-	\bibitem{c05}
-	Clifton, D. (2016).
+	\smallskip \noindent Clifton, D. (2016).
 	Log Gaussian Cox Processes. Presentation, Computational Health Informatics Group Meeting.
 
-	\bibitem{c06}
-	Flaxman, S. (2016).
+	\smallskip \noindent Flaxman, S. (2016).
 	A General Approach to Prediction and Forecasting Crime Rates with Gaussian Processes. Retrieved October 13, 2016, from https://www.ml.cmu.edu/research/dap-papers/dap\_flaxman.pdf
 
-	\bibitem{c07}
-	Wilson, J. Q., \& Kelling, G. (n.d.).
+	\smallskip \noindent Wilson, J. Q., \& Kelling, G. (n.d.).
 	Broken Window Theory | Missoula, MT - Official Website. Retrieved October 13, 2016, from http://www.ci.missoula.mt.us/881/Broken-Window-Theory
 
-	
-	\end{thebibliography}
 \end{document}
