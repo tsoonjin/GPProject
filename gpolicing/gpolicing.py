@@ -6,9 +6,9 @@ import sys
 import numpy as np
 
 from config import PATH, TRAIN_PATH, TEST_PATH
-from gp_utils import (load_as_dict, load_training, load_test, load_model, save_model,
+from gp_utils import (load_as_dict, load_training, load_model, save_model,
                       count_from_prediction, in_sample_prediction, out_sample_forecast,
-                      get_predicted_stats, stats_to_csv, get_truth_stats)
+                      get_predicted_stats, stats_to_csv, get_truth_stats, set_studentt_prior)
 
 
 def init_params(offense):
@@ -22,15 +22,15 @@ def generate_kernel():
     # Make a kernel for the spatial only effect (which is in log space)
     kern_s = GPy.kern.Matern32(1, active_dims=[0], name='space_effect')
     kern_t = GPy.kern.RBF(1, active_dims=[1], name='time_effect')
-    kern_p = GPy.kern.PeriodicExponential(1, active_dims=[1], period=52.0, name='periodic_effect')
+    kern_p = GPy.kern.PeriodicMatern32(1, active_dims=[1], name='periodic_effect')
     # Make a kernel for the space_time effect, f
     kern_st = kern_s * kern_t
-    full_kern = kern_s + kern_t + kern_st
+    full_kern = kern_s + kern_t + kern_st + kern_p
     return full_kern
 
 
 def generate_model(train_path, psa_pop, week_count, full_kern, mname):
-    X_train, Y_train, _, _, _ = load_training(train_path, psa_pop, week_count)
+    X_train, Y_train = load_training(train_path, psa_pop, week_count)
     filepath = '{}{}.npy'.format(PATH['models'], mname)
     if os.path.isfile(filepath):
         return load_model(X_train, Y_train, full_kern, filepath)
@@ -38,6 +38,7 @@ def generate_model(train_path, psa_pop, week_count, full_kern, mname):
     laplace_inf = GPy.inference.latent_function_inference.Laplace()
     m = GPy.core.GP(X=X_train, Y=Y_train, kernel=full_kern, likelihood=likelihood_func,
                     inference_method=laplace_inf)
+    set_studentt_prior(m)
     m.optimize(messages=True)
     save_model(m, filepath)
     return m
@@ -54,9 +55,12 @@ if __name__ == '__main__':
         exit()
     mname, offense = sys.argv[1:]
     psa_pop, week_count = init_params(offense)
-    m = generate_model(TRAIN_PATH, psa_pop, week_count, generate_kernel(), mname)
-    (predict_mean, _, X_test, truth_f, log_es_test, _) = out_sample_forecast(TEST_PATH, psa_pop, week_count,
-                                                                             mname, offense, m)
-    # psa_counts = get_predicted_stats(X_test, predict_mean, log_es_test, psa_pop.keys())
-    psa_counts = get_truth_stats(X_test, truth_f, psa_pop.keys())
-    stats_to_csv(psa_counts, '{}{}_truth.csv'.format(PATH['result'], mname))
+    m = generate_model(TRAIN_PATH.format(PATH['train'], offense), psa_pop, week_count,
+                       generate_kernel(), mname)
+    out_res = out_sample_forecast(TEST_PATH.format(PATH['test'], offense), psa_pop,
+                                  week_count, mname, offense, m)
+    (predict_mean, predict_variance, X_test, truth_f, log_es_test, _) = out_res
+    psa_counts = get_predicted_stats(X_test, predict_mean, predict_variance, log_es_test, psa_pop.keys())
+    truth_counts = get_truth_stats(X_test, truth_f, psa_pop.keys())
+    stats_to_csv(psa_counts, '{}{}_predicted.csv'.format(PATH['result'], mname))
+    stats_to_csv(truth_counts, '{}{}_observed.csv'.format(PATH['result'], mname))

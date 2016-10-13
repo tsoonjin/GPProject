@@ -31,7 +31,7 @@ def create_map(data, json, CENTER=DC_COORDINATES, geojson=MAP_PATH, zoom=11, til
 
 if __name__ == '__main__':
     if len(sys.argv) != 4:
-        print("Usage: python gpolicing.py [model_name] [count or relative] [map name]")
+        print("Usage: python gpolicing.py [model_name] [count | variance | relative] [map name]")
         exit()
     (mname, value, mapname) = sys.argv[1:]
     data, json_path = process_result(mname, value)

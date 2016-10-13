@@ -11,8 +11,8 @@ PATH = {'info': '{}{}'.format(ROOT, 'info/'),
         'result': '{}{}'.format(ROOT, 'result/'),
         'figs': '{}{}'.format(ROOT, 'figs/'),
         'models': '{}{}'.format(ROOT, 'models/')}
-TRAIN_PATH = '{}week_robbery_in_3m.csv'.format(PATH['train'])
-TEST_PATH = '{}week_robbery_in_test1m.csv'.format(PATH['test'])
+TRAIN_PATH = '{}week_{}_in_3m.csv'
+TEST_PATH = '{}week_{}_in_test3m.csv'
 MAP_PATH = '{}geojsons/police-service-areas-psa.geojson'.format(ROOT)
 
 # Data Format
