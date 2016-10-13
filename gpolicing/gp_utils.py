@@ -129,11 +129,10 @@ def get_predicted_stats(X_test, predict_mean, predict_variance, log_es_test, psa
     relative_risk = predict_mean
     psa_counts = OrderedDict({p.split('.')[0]: [0, 0, 0] for p in psa_keys})
     for i, test in enumerate(X_test):
-        if test[1] not in weeks:
-            break
-        psa_counts[str(int(test[0]))][0] = psa_counts[str(int(test[0]))][0] + counts[i][0]
-        psa_counts[str(int(test[0]))][1] = psa_counts[str(int(test[0]))][1] + predict_variance[i][0]
-        psa_counts[str(int(test[0]))][2] = psa_counts[str(int(test[0]))][2] + relative_risk[i][0]
+        if test[1] in weeks:
+            psa_counts[str(int(test[0]))][0] = psa_counts[str(int(test[0]))][0] + counts[i][0]
+            psa_counts[str(int(test[0]))][1] = psa_counts[str(int(test[0]))][1] + predict_variance[i][0]
+            psa_counts[str(int(test[0]))][2] = psa_counts[str(int(test[0]))][2] + relative_risk[i][0]
     return psa_counts
 
 
