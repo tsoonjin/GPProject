@@ -91,15 +91,18 @@ def out_sample_forecast(test_path, psa_pop, week_count, mname, offense, model):
     X_test, truth_f, log_es_test = load_test(test_path, psa_pop, week_count)
     predict_mean, predict_variance = model._raw_predict(X_test)
     log_es_test = np.array([[math.log(avg_weekly_count * psa_pop[str(i[0])]) for i in X_test]]).T
+    anomalous = [x for x, y, mu, sigma2 in zip(X_test, truth_f,
+                 count_from_prediction(predict_mean, log_es_test),
+                 count_from_prediction(predict_variance, log_es_test))
+                 if is_anomalous(y[0], mu, sigma2)]
     mse = calc_MSE(truth_f, count_from_prediction(predict_mean, log_es_test))
     log_result(offense, mname, mse, predict_mean, log_es_test)
-    return predict_mean, predict_variance, X_test, truth_f, log_es_test, mse
+    return predict_mean, predict_variance, X_test, truth_f, log_es_test, mse, anomalous
 
 
 def log_result(offense, mname, mse, predict_mean, log_es_test):
     res = np.c_[predict_mean, count_from_prediction(predict_mean, log_es_test)]
     print('Offense: {}\tModel: {}\tMSE: {}'.format(offense, mname, mse))
-    print(predict_mean)
 
 
 def get_truth_stats(X_test, Y_test, psa_keys, weeks=[22]):
@@ -110,6 +113,14 @@ def get_truth_stats(X_test, Y_test, psa_keys, weeks=[22]):
             break
         psa_counts[str(int(test[0]))][0] = psa_counts[str(int(test[0]))][0] + Y_test[i][0]
     return psa_counts
+
+
+def get_anomalous_stats(anomalous, psa_keys, weeks=[22]):
+    anomalous_counts = OrderedDict({p.split('.')[0]: 0 for p in psa_keys})
+    for i in anomalous:
+        if i[1] in weeks:
+            anomalous_counts[str(int(i[0]))] = anomalous_counts[str(int(i[0]))] + 1
+    return anomalous_counts
 
 
 def get_predicted_stats(X_test, predict_mean, predict_variance, log_es_test, psa_keys, weeks=[22]):
@@ -124,6 +135,14 @@ def get_predicted_stats(X_test, predict_mean, predict_variance, log_es_test, psa
         psa_counts[str(int(test[0]))][1] = psa_counts[str(int(test[0]))][1] + predict_variance[i][0]
         psa_counts[str(int(test[0]))][2] = psa_counts[str(int(test[0]))][2] + relative_risk[i][0]
     return psa_counts
+
+
+def single_stats_to_csv(my_dict, filepath, columns=['PSA', 'OUTLIER']):
+    with open(filepath, 'wb') as csv_file:
+        writer = csv.writer(csv_file)
+        writer.writerow(columns)
+        for key, value in my_dict.items():
+            writer.writerow([key, value])
 
 
 def stats_to_csv(my_dict, filepath, columns=['PSA', 'COUNT', 'VARIANCE', 'RELATIVE']):

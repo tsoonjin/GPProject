@@ -3,12 +3,12 @@
 import os
 import GPy
 import sys
-import numpy as np
 
 from config import PATH, TRAIN_PATH, TEST_PATH
 from gp_utils import (load_as_dict, load_training, load_model, save_model,
                       count_from_prediction, in_sample_prediction, out_sample_forecast,
-                      get_predicted_stats, stats_to_csv, get_truth_stats, set_studentt_prior)
+                      get_predicted_stats, stats_to_csv, get_truth_stats, set_studentt_prior,
+                      get_anomalous_stats, single_stats_to_csv)
 
 
 def init_params(offense):
@@ -59,8 +59,10 @@ if __name__ == '__main__':
                        generate_kernel(), mname)
     out_res = out_sample_forecast(TEST_PATH.format(PATH['test'], offense), psa_pop,
                                   week_count, mname, offense, m)
-    (predict_mean, predict_variance, X_test, truth_f, log_es_test, _) = out_res
+    (predict_mean, predict_variance, X_test, truth_f, log_es_test, mse, anomalous) = out_res
     psa_counts = get_predicted_stats(X_test, predict_mean, predict_variance, log_es_test, psa_pop.keys())
+    anomalous_counts = get_anomalous_stats(anomalous, psa_pop.keys())
     truth_counts = get_truth_stats(X_test, truth_f, psa_pop.keys())
+    single_stats_to_csv(anomalous_counts, '{}{}_anomalous.csv'.format(PATH['result'], mname))
     stats_to_csv(psa_counts, '{}{}_predicted.csv'.format(PATH['result'], mname))
     stats_to_csv(truth_counts, '{}{}_observed.csv'.format(PATH['result'], mname))
