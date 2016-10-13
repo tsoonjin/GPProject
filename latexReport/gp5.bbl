@@ -1,0 +1,175 @@
+% $ biblatex auxiliary file $
+% $ biblatex version 2.6 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated as
+% required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+\entry{c05}{misc}{}
+  \name{author}{1}{}{%
+    {{}%
+     {Clifton}{C.}%
+     {D.}{D.}%
+     {}{}%
+     {}{}}%
+  }
+  \list{organization}{1}{%
+    {Computational Health Informatics Group Meeting}%
+  }
+  \strng{namehash}{CD1}
+  \strng{fullhash}{CD1}
+  \field{sortinit}{C}
+  \field{title}{Log Gaussian Cox Processes}
+  \field{type}{presentation}
+  \field{year}{2016}
+\endentry
+
+\entry{c06}{article}{}
+  \name{author}{1}{}{%
+    {{}%
+     {Flaxman}{F.}%
+     {S.}{S.}%
+     {}{}%
+     {}{}}%
+  }
+  \list{organization}{1}{%
+    {Twenty-Sixth Conference on Uncertainty in Artificial Intelligence}%
+  }
+  \strng{namehash}{FS1}
+  \strng{fullhash}{FS1}
+  \field{sortinit}{F}
+  \field{title}{A General Approach to Prediction and Forecasting Crime Rates
+  with Gaussian Processes}
+  \verb{url}
+  \verb https://www.ml.cmu.edu/research/dap-papers/dap\_flaxman.pdf
+  \endverb
+  \field{year}{2016}
+\endentry
+
+\entry{c04}{misc}{}
+  \name{author}{1}{}{%
+    {{}%
+     {Ghahramani}{G.}%
+     {Z.}{Z.}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{GZ1}
+  \strng{fullhash}{GZ1}
+  \field{sortinit}{G}
+  \field{title}{A Tutorial on Gaussian Processes}
+  \list{institution}{1}{%
+    {University of Cambridge}%
+  }
+  \field{type}{lecture}
+  \field{year}{2010}
+\endentry
+
+\entry{c01}{misc}{}
+  \name{author}{1}{}{%
+    {{}%
+     {McDubb}{M.}%
+     {D.}{D.}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{MD1}
+  \strng{fullhash}{MD1}
+  \field{sortinit}{M}
+  \field{title}{Gaussian Processes}
+  \verb{url}
+  \verb http://courses.media.mit.edu/2010fall/mas622j/ProblemSets/slidesGP.pdf
+  \endverb
+  \list{institution}{1}{%
+    {Massachusetts Institute of Technology}%
+  }
+  \field{type}{lecture}
+  \field{year}{2010}
+\endentry
+
+\entry{c07}{misc}{}
+  \name{author}{2}{}{%
+    {{}%
+     {Q.}{Q.}%
+     {Wilson~J.}{W.~J.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {G.}{G.}%
+     {Kelling}{K.}%
+     {}{}%
+     {}{}}%
+  }
+  \list{organization}{1}{%
+    {Missoula, MT - Official Website}%
+  }
+  \strng{namehash}{QWJGK1}
+  \strng{fullhash}{QWJGK1}
+  \field{sortinit}{Q}
+  \field{title}{Broken Window Theory}
+  \verb{url}
+  \verb http://www.ci.missoula.mt.us/881/Broken-Window-Theory
+  \endverb
+\endentry
+
+\entry{c02}{inproceedings}{}
+  \name{author}{2}{}{%
+    {{}%
+     {Ryan Prescott~Adams}{R.~P.~A.}%
+     {George E.~Dahl}{G.~E.~D.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Murray}{M.}%
+     {Iain}{I.}%
+     {}{}%
+     {}{}}%
+  }
+  \list{organization}{1}{%
+    {Twenty-Sixth Conference on Uncertainty in Artificial Intelligence}%
+  }
+  \strng{namehash}{RPAGEDMI1}
+  \strng{fullhash}{RPAGEDMI1}
+  \field{sortinit}{R}
+  \field{number}{arXiv:1408.2039}
+  \field{title}{Incorporating Side Information in Probabilistic Matrix
+  Factorization with Gaussian Processes}
+  \field{volume}{UAI2010}
+  \field{year}{2014}
+\endentry
+
+\entry{c03}{inproceedings}{}
+  \name{author}{1}{}{%
+    {{}%
+     {Wilson~A.G.}{W.~A.}%
+     {Adams~R.P.}{A.~R.}%
+     {}{}%
+     {}{}}%
+  }
+  \list{organization}{1}{%
+    {The 30th International Conference on Machine Learning}%
+  }
+  \strng{namehash}{WAAR1}
+  \strng{fullhash}{WAAR1}
+  \field{sortinit}{W}
+  \field{number}{JMLR W\&CP 28 (3) :1067-1075, 2013}
+  \field{title}{Gaussian Process Kernels for Pattern Discovery and
+  Extrapolation}
+  \field{year}{2010}
+\endentry
+
+\lossort
+\endlossort
+
+\endinput
