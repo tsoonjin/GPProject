@@ -1,0 +1,75 @@
+\def\year{2016}
+\documentclass[letterpaper]{article}
+
+\usepackage{aaai}
+\usepackage{relsize}
+\usepackage{sectsty}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{titlesec}
+\usepackage{graphicx} 
+\usepackage{wrapfig}
+\usepackage{indentfirst}
+\usepackage[style=numeric,backend=bibtex]{biblatex}
+% For aaai
+\usepackage{times}
+\usepackage{helvet}
+\usepackage{courier}
+\setlength{\pdfpagewidth}{8.5in} 
+\setlength{\pdfpageheight}{11in}
+
+\setcounter{secnumdepth}{1} % for section number
+\addbibresource{reference.bib}
+
+\begin{document}
+
+	\title{Modelling Crimes using Gaussian Processes}
+	\author{CS4246 Project Part 2: Active Learning and Bayesian Optimization\\ \\
+	\bf \small Group 5:\\
+	\small Choo Boon Yong Martin, A0132760M\\
+	\small Leow Yijin, A0131891E\\
+	\small Tan Soon Jin, A0112213E\\
+	\small Teo Qi Xuan, A0124206W\\
+	\small Won Jun Ru Daphne, A0126172M\\
+	\small Zhu Liang, A0093910H\\
+	}	
+	
+	\pdfinfo{
+		/Title Active Learning and Bayesian Optimization
+		/Author Martin, Yijin, Soon Jin, Qi Xuan, Daphne, Zhu Liang
+	}
+	
+	\maketitle
+	\thispagestyle{empty}
+	\pagestyle{empty}
+	
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	
+	\begin{abstract}
+	\begin{quote}
+		Efficient allocation of police resources is needed to better combat crime. In this paper, we propose to combine the use of heatmaps (kernel-based intensity smoothing) and Gaussian Process (GP) to be explored as a way of modelling crime. By producing a heatmap of risk assessment of crime in a area, it will form an objective guide for law enforcers and planners to better allocate manpower and offer help to the communities.
+	\end{quote}
+	\end{abstract}
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	
+	%%%%%%%%%% Section 1
+	\section{Introduction}
+	
+	In this paper, we propose the use of the Gaussian Process (GP) to model the spread of crimes in the District of Columbia (DC).
+	The paper will discuss the important requirements of crime models, the way we exploit desirable properties of GP models and the qualitative advantages GP models provide to address the requirements.\\ \\
+
+	The paper will also explain how we train our GP model to predict the crime data, additional insights gained as well as novel modifications of the GP to enhance it. 
+	Notably, we touch on how we visualize the output to provide a novel and unprecedented way of interpreting GPs and how the DC authorities can interpret the output.\\ \\
+
+	We then discuss the experimental evaluation of our GP model, particularly how we test it and how the model performs in comparison with other regression models. 
+	
+
+	%%%%%%%%%% References
+
+	\printbibliography
+
+\end{document}
